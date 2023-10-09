@@ -2,6 +2,10 @@
 
 A simple webapp to allow users to submit restaurant choices and pick one at random.
 
+## Prerequisites
+
+This project assumes that you have at least Node.js v18.12.1 installed.
+
 ## Local Setup
 
 Firstly, clone the repo into your local directory:
