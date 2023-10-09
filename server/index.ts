@@ -13,16 +13,13 @@ app.use(cors());
 
 app.post('/restaurant', (req: Request, res: Response) => {
     const restaurant = req.body.restaurant;
-    console.log(restaurant);
     if (!restaurant) {
-        console.log("empty rest");
-        return res.status(400).send({error: "restaurant name is missing!"});
+        return res.status(400).send({error: "Restaurant name is missing!"});
     }
     if (restaurantList.includes(restaurant)) {
         return res.status(400).send({error: "Restaurant name must be unique!"});
     }
     restaurantList.push(restaurant);
-    console.log(restaurantList);
     res.status(201).send();
 });
 

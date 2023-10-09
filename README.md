@@ -33,6 +33,8 @@ cd client
 npm run dev
 ```
 
+This will run the server on port 8000 and the client on port 5173, so make sure the ports aren't occupied beforehand.
+
 ## Restaurant API
 
 #### Add a Restaurant
