@@ -4,7 +4,7 @@ import Container from '@mui/material/Container';
 import Typography from '@mui/material/Typography';
 import TextField from '@mui/material/TextField';
 import { useState } from 'react';
-import axios from 'axios';
+import axios, { AxiosError } from 'axios';
 import { Alert, AlertColor } from '@mui/material';
 
 function App() {
@@ -29,9 +29,14 @@ function App() {
         setAlertColor("error");
       }
     }
-    catch (err) {
-      console.log(err);
-      setAlertMessage("Something went wrong while submitting! Please try again later.");
+    catch (err: unknown) {
+      if (err instanceof AxiosError && err.response) {
+        const errMsg = err.response.data.error;
+        setAlertMessage(errMsg);
+      }
+      else {
+        setAlertMessage("Something went wrong while submitting! Please try again later.");
+      }
       setAlertColor("error");
     }
   }
@@ -49,13 +54,18 @@ function App() {
         setAlertMessage("");
       }
     }
-    catch (err) {
+    catch (err: unknown) {
       console.log(err);
-      setAlertMessage("Something went wrong while retrieving a restaurant! Please try again later.");
+      if (err instanceof AxiosError && err.response) {
+        const errMsg = err.response.data.error;
+        setAlertMessage(errMsg);
+      }
+      else {
+        setAlertMessage("Something went wrong while retrieving a restaurant! Please try again later.");
+      }
       setAlertColor("error");
       setRandomRestaurant("");
     }
-    
   }
 
   return (

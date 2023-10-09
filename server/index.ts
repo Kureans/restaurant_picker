@@ -15,7 +15,11 @@ app.post('/restaurant', (req: Request, res: Response) => {
     const restaurant = req.body.restaurant;
     console.log(restaurant);
     if (!restaurant) {
-        return res.status(400).json({error: "restaurant name is missing!"});
+        console.log("empty rest");
+        return res.status(400).send({error: "restaurant name is missing!"});
+    }
+    if (restaurantList.includes(restaurant)) {
+        return res.status(400).send({error: "Restaurant name must be unique!"});
     }
     restaurantList.push(restaurant);
     console.log(restaurantList);
@@ -24,8 +28,8 @@ app.post('/restaurant', (req: Request, res: Response) => {
 
 app.get('/restaurant', (req: Request, res: Response) => {
     if (restaurantList.length == 0) {
-        return res.json({
-            "error": "No restaurants submitted yet!"
+        return res.status(400).send({
+            error: "No restaurants submitted yet!"
         });
     }
     //Ensure even distribution
