@@ -11,15 +11,26 @@ Firstly, clone the repo into your local directory:
 To install dependencies for server/client:
 
 ```
-cd server && npm install
-cd client && npm install
+cd server
+npm install
+cd ../client 
+npm install
 ```
 
 To run server/client (Should be done in separate terminals):
 
+#### Server
+
 ```
-cd server && npm run dev
-cd client && npm run dev
+cd server 
+npm run dev
+```
+
+#### Client
+
+```
+cd client 
+npm run dev
 ```
 
 ## Restaurant API

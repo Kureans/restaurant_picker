@@ -3,6 +3,7 @@ import Button from '@mui/material/Button';
 import Container from '@mui/material/Container';
 import Typography from '@mui/material/Typography';
 import TextField from '@mui/material/TextField';
+import Grid from '@mui/material/Grid';
 import { useState } from 'react';
 import axios, { AxiosError } from 'axios';
 import { Alert, AlertColor } from '@mui/material';
@@ -12,7 +13,7 @@ function App() {
   const [randomRestaurant, setRandomRestaurant] = useState("");
   const [alertMessage, setAlertMessage] = useState("");
   const [alertColor, setAlertColor] = useState<AlertColor>();
-  const api_endpoint = "http://localhost:8000";
+  const api_endpoint = import.meta.env.PORT || "http://localhost:8000";
 
   const handleSubmit = async (e: React.MouseEvent<HTMLButtonElement>) => {
     e.preventDefault();
@@ -69,30 +70,43 @@ function App() {
   }
 
   return (
-    <>
-    <Container>
-      <Typography align='center' variant='h1' gutterBottom>
-        Pick A Restaurant
-      </Typography> 
-      <TextField 
-        label="Enter a Restaurant" 
-        value={restaurant}
-        onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
-          setRestaurant(e.target.value);
-        }}/>
-      <Button variant="contained" onClick={handleSubmit}>Add</Button>
-      <Button variant="contained" onClick={getRandomRestaurant}>Get Random Restaurant</Button>
+    <Container maxWidth="sm"> 
+      <Grid container spacing={2} direction="column" alignItems="center">
+        <Grid item>
+          <Typography align="center" variant="h1" gutterBottom>
+            Pick A Restaurant.
+          </Typography>
+        </Grid>
+        <Grid item>
+          <TextField
+            label="Enter a Restaurant"
+            fullWidth
+            value={restaurant}
+            onChange={(e) => {
+              setRestaurant(e.target.value);
+            }}
+          />
+        </Grid>
+        <Grid item>
+          <Button variant="contained" onClick={handleSubmit}>
+            Add Restaurant
+          </Button>
+        </Grid>
+        <Grid item>
+          <Button variant="contained" onClick={getRandomRestaurant}>
+            Get Random Restaurant
+          </Button>
+        </Grid>
+      </Grid>
+
+      {alertMessage && (
+        <Alert severity={alertColor} sx={{ marginTop: 2, marginBottom: 2 }}>{alertMessage}</Alert>
+      )}
+
+      {randomRestaurant && (
+        <Alert severity="info" sx={{ marginTop: 2, marginBottom: 2 }}>You picked {randomRestaurant}!</Alert>
+      )}
     </Container>
-
-    {alertMessage && (
-      <Alert severity={alertColor}>{alertMessage}</Alert>
-    )}
-
-    {randomRestaurant && (
-      <Alert severity="info">You picked {randomRestaurant}!</Alert>
-    )}
-
-    </>
   );
 }
 
