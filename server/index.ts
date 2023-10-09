@@ -1,5 +1,6 @@
 import express, { Express, Request, Response } from 'express';
 import dotenv from 'dotenv';
+import cors from 'cors';
 
 dotenv.config();
 
@@ -8,13 +9,16 @@ const port = process.env.PORT || 8000;
 const restaurantList: Array<string> = [];
 
 app.use(express.json());
+app.use(cors());
 
 app.post('/restaurant', (req: Request, res: Response) => {
     const restaurant = req.body.restaurant;
+    console.log(restaurant);
     if (!restaurant) {
         return res.status(400).json({error: "restaurant name is missing!"});
     }
     restaurantList.push(restaurant);
+    console.log(restaurantList);
     res.status(201).send();
 });
 
@@ -24,7 +28,11 @@ app.get('/restaurant', (req: Request, res: Response) => {
             "error": "No restaurants submitted yet!"
         });
     }
-    const index = Math.floor(Math.random() * (restaurantList.length-1));
+    //Ensure even distribution
+    let index = 0;
+    while (index != restaurantList.length) {
+        index = Math.floor(Math.random() * (restaurantList.length));
+    }
     return res.json({
         "restaurant": restaurantList[index]
     });
