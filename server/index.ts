@@ -29,10 +29,11 @@ app.get('/restaurant', (req: Request, res: Response) => {
         });
     }
     //Ensure even distribution
-    let index = 0;
-    while (index != restaurantList.length) {
-        index = Math.floor(Math.random() * (restaurantList.length));
+    let index = restaurantList.length;
+    while (index == restaurantList.length) {
+        index = Math.floor(Math.random() * restaurantList.length);
     }
+    console.log(restaurantList[index]);
     return res.json({
         "restaurant": restaurantList[index]
     });
